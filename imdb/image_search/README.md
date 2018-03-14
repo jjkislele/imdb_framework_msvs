@@ -4,7 +4,7 @@
 
 **说明**
 
-``image_search_featureExtracted``是本程序``image_search``的改进版本，除一下点外，两者并无其他差异，因此可阅读``image_search_featureExtracted``的说明。
+``image_search_featureExtracted``是本程序``image_search``的改进版本，除以下点外，两者并无其他差异，因此可阅读``image_search_featureExtracted``的说明。
 
 **差异**
 

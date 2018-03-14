@@ -1,0 +1,112 @@
+generate_filelist
+							                生成图片文件索引，如果没有-o则在控制台显示图片文件名，否则输出二进制索引文件
+							                -f 读取上述索引文件
+							                完成索引后才能进行特征提取
+							                用例：generate_filelist.exe -d ./airplane -r 10 -t *.png -o airplane
+files [options]
+options:
+  --rootdir, -d               root directory of files descriptors are compute from [optional, default is '.']
+  --namefilters, -t           name filters for files to be listed, e.g. "*.png" "*.jpg" [required]
+  --filelist, -f              file that contains existing list of filenames [optional, if not provided all matching files in and below rootdir are listed]
+  --outputfile, -o            output filelist filename [optional, if not provided, output is console.]
+  --random-sample, -r         random shuffle and truncate file list to given size [optional]
+  --seed, -s                  seed value for random-sampling [optional, defaultis current time]
+
+-------------------
+
+compute_descriptors
+							                对由generate_filelist产生的索引中的图片进行特征提取
+							                descriptors对应的generator有4种：
+                                * galif
+										            * gist
+										            * shog
+										            * tinyimage
+							                用例：compute_descriptors.exe compute galif -r . -f test -o galif_
+compute <generator> [options]
+options:
+  --rootdir, -r               root directory of data descriptors are computed from [required]
+  --filelist, -f              file that contains filenames of data (images/models) [required]
+  --output, -o                output prefix [required]
+  --parameters, -p            parameters for generator construction [optional] (default: params defined in generator)
+  --numthreads, -t            number of threads for parallel computation [optional] (default: number of processors)
+
+-------------------
+
+compute_vocabulary
+                              输入compute_descriptors计算出的特征，进行聚类操作，输出特征的类心（vec_vec_f32_t格式）
+                              若不设定-s -n项，则void readAllWords，读取-d中的所有特征向量
+                              用例：compute_vocabulary.exe -d galif_features -c 2 -o galif_voc
+compute_vocabulary [options]
+options:
+  --descfile, -d              descriptors file [required]
+  --sizefile, -s              file that contains number of words per descriptor[optional] 此处若设置，则-n也必须设置
+  --numsamples, -n            number of words randomly extracted from descriptor file [optional, but sizefile must also be specified] 此处若设置，则-s也必须设置
+  --numclusters, -c           number of clusters/visual words to generate [required]
+  --outputfile, -o            output file [required]
+  --numthreads, -t            number of threads for parallel computation (default: number of processors) [optional]
+  --maxiter, -i               kmeans stopping criterion: maximum number of iterations (default: 20) [optional]
+  --minchangesfraction, -m    kmeans stopping criterion: number of changes (fraction of total samples) (default: 0.01) [optional]
+
+-------------------
+
+compute_histvw
+                              由经过compute_vocabulary聚类后产生的类心数据position与特征descriptors通过本程序产生codebook（BoF词袋）
+                              convert descriptors into histograms of visual words
+                              quantization有两个选项：
+                                * hard
+                                * fuzzy
+                              用例：compute_histvw.exe -v galif_voc -d galif_features -p galif_positions -o galif_histvw -q hard
+compute_histvw [options]
+options:
+  --vocabulary, -v            filename of the vocabulary to be used for quantization [required]
+  --descriptors, -d           filename of the descriptors to convert into histograms of visual words [required]
+  --positions, -p             positions data for features [required]
+  --output, -o                filename of the output file of histograms of visual words [required]
+  --quantization, -q          quantization method {hard,fuzzy} [required]
+  --sigma, -s                 sigma for gaussian weighting in fuzzy quantization [required (with 'fuzzy' quantization only)]
+  --pyramidlevels, -l         number of spatial pyramid levels [optional, default 1]
+
+-------------------
+
+compute_index
+                              输入由compute_histvw产生的-h，输出tf-idf
+                              tfidf分别有4个选项
+                                * constant
+                                * video_google 
+                                * simple
+                                * lucene                                                              
+                              用例：compute_index.exe -h galif_histvw -o galif_tfidf -t constant constant
+compute_index [options]
+options:
+  --histvw, -h                filename to vector of histograms of visual words [required]
+  --output, -o                filename of the output index file [required]
+  --tfidf, -t                 two strings specifying tf and idf function to be used (eg. -t constant constant) [required]
+
+-------------------
+
+image_search
+                              输入compute_index生成的tf-idf，compute_vocabulary生成的codebook，输出检索结果，top-k由-n设置
+                              若-s没有提供generator_name，则必须-g设置
+                              若没有-s则需从-m设置search parameters，有两个搜索选项：
+                                * BofSearch
+                                  - search_type = BofSearch
+                                  - index_file = [index_file的路径]
+                                  - tf = [若不设置，则默认为constant]
+                                  - idf = [若不设置，则默认为constant]
+                                * LinearSearch 里面的设置还未搞明白
+                                  - search_type = LinearSearch       
+                                  - descriptor_file = 
+                                  - distfn =
+                                  是否是tensor
+                                  - name = tensor                                                 
+                              用例：image_search.exe -q 42.png -m search_type=BofSearch index_file=galif_tfidf  -v galif_voc -l test -g galif
+image_search [options]
+options:
+  --queryimage, -q            filename of image to be used as the query [required]
+  --searchptree, -s           filename of the JSON file containing parameters for the search manager [optional, if not provided, --searchparams must be given]
+  --searchparams, -m          parameters for the search manager [optional, if not provided, --searchptree must be given]
+  --vocabulary, -v            filename of vocabulary used for quantization [optional, only required with bag-of-features search]
+  --filelist, -l              filename of images filelist [required]
+  --generatorptree, -p        filename of the JSON file containing generator name and parameters [optional, if not provided, generator's default values are used']
+  --numresults, -n            number of results to search for [optional, if not provided all distances get computed]
+  --generatorname, -g         name of generator [optional, if given, we will use generator's default parameters and ignore --generatorptree]

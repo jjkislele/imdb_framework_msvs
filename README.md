@@ -56,10 +56,10 @@
 
 序号|文件夹名|功能说明|链接
 :--:|--------|--------|----
-1|generate_filelist|生成图像绝对路径索引|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/imdb/tree/master/generate_filelist)
-2|compute_descriptors|提取图像特征|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/imdb/tree/master/compute_descriptors)
-3|compute_vocabulary|特征聚类，产生视觉词汇|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/imdb/tree/master/compute_vocabulary)
-4|compute_histvw|由视觉词汇产生视觉词汇表|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/imdb/compute_histvw)
-5|compute_index|生成TF-IDF权重|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/imdb/tree/master/compute_index)
-6|image_search|图像检索|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/imdb/tree/master/image_search)
-7|image_search_featureExtracted|image_search的修改版本，输入为检索序列特征|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/imdb/tree/master/image_search_featureExtracted)
+1|generate_filelist|生成图像绝对路径索引|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/tree/master/imdb/generate_filelist)
+2|compute_descriptors|提取图像特征|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/tree/master/imdb/compute_descriptors)
+3|compute_vocabulary|特征聚类，产生视觉词汇|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/tree/master/imdb/compute_vocabulary)
+4|compute_histvw|由视觉词汇产生视觉词汇表|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/tree/master/imdb/compute_histvw)
+5|compute_index|生成TF-IDF权重|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/tree/master/imdb/compute_index)
+6|image_search|图像检索|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/tree/master/imdb/image_search)
+7|image_search_featureExtracted|image_search的修改版本，输入为检索序列特征|[:mag:](https://github.com/jjkislele/imdb_framework_msvs/tree/master/imdb/image_search_featureExtracted)

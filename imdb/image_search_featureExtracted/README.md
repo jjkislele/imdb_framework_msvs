@@ -1,14 +1,16 @@
-#### image_search_featureExtracted
-
+# image_search_featureExtracted
+## 批量输入检索序列特征，求检索结果 :octocat:
 ----------------
 
-**说明**
+#### **说明**
 
 基于 ``image_search`` 源码进行了修改，增添了在控制台输出检索结果 ``#define SHOW_RESULT`` 与保存检索结果 ``#define SAVE_SCORE`` 选项，并使程序能够执行批处理。
 
 ``image_search(_featureExtracted)`` 本程序为SBIR的最终步，生成检索结果。具体来说，是输入检索序列，与图片集进行BoF特征匹配，并以“分数 文件名”的形式储存，即检索序列的每张图像与图片集的每张图像进行特征匹配。
 
-**搜索参数**
+----
+
+#### **搜索参数**
 
 本程序支持BoF检索框架与线性检索框架，此处需要通过输入参数``-s``或``-m``定义所使用的检索框架。
 
@@ -24,13 +26,17 @@
     是否是tensor
     - name = tensor          
 
-**用例**
+----
+
+#### **用例**
 
 ```
 image_search_featureExtracted.exe -d queryDes -q queryFilelist -m search_type=BofSearch index_file=galif_tfidf -v shogVoc -l imgFilelist -g shog -r .
 ```
 
-**输入**
+----
+
+#### **输入**
 
 image_search [options]
 
@@ -91,7 +97,9 @@ image_search [options]
 
 设置保存检索结果的相对路径，若本项不给出，则默认相对路径为"\retrieval_list\"。
 
-**输出**
+----
+
+#### **输出**
 
 如图，输入的检索序列按“1、2、3、4、...”命名分类，每类中含有检索图片若干张，输出则是以"retrieval_list"命名的文件夹，文件夹内含与检索序列分类同名的若干子文件夹，如左图所示；每个子文件夹中含以检索图片为检索输入的检索结果，如中图所示；检索结果按“分数 类别/文件名”的形式保存，如右图所示。
 

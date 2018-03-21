@@ -8,10 +8,10 @@ the terms of the BSD license (see the LICENSE file).
 
 //#include <QtCore>
 
-#include <types.hpp>
-#include <progress.hpp>
-#include <cmdline.hpp>
-#include <filelist.hpp>
+#include "types.hpp"
+#include "progress.hpp"
+#include "cmdline.hpp"
+#include "filelist.hpp"
 
 
 

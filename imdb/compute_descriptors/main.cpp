@@ -16,13 +16,13 @@ the terms of the BSD license (see the LICENSE file).
 #include <boost/thread.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include <property_writer.hpp>
-#include <cmdline.hpp>
-#include <filelist.hpp>
-#include <compute_descriptors.hpp>
-#include <progress.hpp>
-#include <types.hpp>
-#include <generator.hpp>
+#include "property_writer.hpp"
+#include "cmdline.hpp"
+#include "filelist.hpp"
+#include "compute_descriptors.hpp"
+#include "progress.hpp"
+#include "types.hpp"
+#include "generator.hpp"
 
 
 
